@@ -17,7 +17,7 @@ intellij {
     version.set("2023.2.6")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf("android"))
+    plugins.set(listOf("android","org.jetbrains.kotlin"))
 }
 
 tasks {
@@ -47,5 +47,10 @@ tasks {
 
     publishPlugin {
         token.set(System.getenv("PUBLISH_TOKEN"))
+    }
+
+    dependencies {
+        implementation("com.squareup.okhttp3:okhttp:4.11.0") // HTTP requests
+        implementation("com.google.code.gson:gson:2.10.1") // JSON handling
     }
 }
