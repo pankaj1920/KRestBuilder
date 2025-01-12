@@ -17,12 +17,12 @@ intellij {
     version.set("2023.2.6")
     type.set("IC") // Target IDE Platform
 
-    plugins.set(listOf("android","org.jetbrains.kotlin"))
+    plugins.set(listOf("android", "org.jetbrains.kotlin"))
 }
 
 tasks {
     // Set the JVM compatibility versions
-    runIde{
+    runIde {
         ideDir.set(file("/Applications/Android Studio.app/Contents"))
     }
 
@@ -52,5 +52,16 @@ tasks {
     dependencies {
         implementation("com.squareup.okhttp3:okhttp:4.11.0") // HTTP requests
         implementation("com.google.code.gson:gson:2.10.1") // JSON handling
+        implementation("com.google.code.gson:gson:2.10.1") // JSON handling
+
+        implementation("io.ktor:ktor-client-content-negotiation:3.0.3")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+        implementation("io.ktor:ktor-client-core:3.0.3")
+        implementation("io.ktor:ktor-client-logging:3.0.3")
+        implementation("io.ktor:ktor-client-cio:3.0.3")
+        implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
+        implementation("org.slf4j:slf4j-simple:2.0.9")
     }
+
+
 }

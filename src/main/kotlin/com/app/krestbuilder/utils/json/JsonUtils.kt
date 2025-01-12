@@ -13,3 +13,9 @@ fun String.isJSONSchema(): Boolean {
         false
     }
 }
+
+
+fun Map<String, String>.mapToJson(): String {
+    val gson = Gson()
+    return gson.toJson(this)
+}

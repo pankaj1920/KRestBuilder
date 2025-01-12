@@ -27,11 +27,33 @@ fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "Generat
                 }
 
                 value.isJsonArray -> {
-                    val elementType = if (value.asJsonArray.size() > 0 && value.asJsonArray[0].isJsonObject) {
-                        val nestedClassName = key.capitalize(Locale.ROOT)
-                        nestedClasses.add(processObject(value.asJsonArray[0].asJsonObject, nestedClassName))
-                        "List<$nestedClassName>"
+                    val elementType = if (value.asJsonArray.size() > 0) {
+                        // Check the type of the first element in the array
+                        when {
+                            value.asJsonArray[0].isJsonObject -> {
+                                // If the first element is a JSON object, process it recursively
+                                val nestedClassName = key.capitalize(Locale.ROOT)
+                                nestedClasses.add(processObject(value.asJsonArray[0].asJsonObject, nestedClassName))
+                                "List<$nestedClassName>"
+                            }
+
+                            value.asJsonArray[0].isJsonPrimitive && value.asJsonArray[0].asJsonPrimitive.isString -> {
+                                // If the first element is a string, treat it as a list of strings
+                                "List<String>"
+                            }
+
+                            value.asJsonArray[0].isJsonPrimitive && value.asJsonArray[0].asJsonPrimitive.isNumber -> {
+                                // If the first element is a number, treat it as a list of integers
+                                "List<Int>"
+                            }
+
+                            else -> {
+                                // Default to List<Any> if it's not a string, number, or object
+                                "List<Any>"
+                            }
+                        }
                     } else {
+                        // Default case if the array is empty
                         "List<Any>"
                     }
                     elementType
@@ -63,8 +85,7 @@ fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "Generat
     }
 
     builder.append(
-        "import kotlinx.serialization.Serializable \n" +
-                "import kotlinx.serialization.SerialName\n\n"
+        "import kotlinx.serialization.Serializable \n" + "import kotlinx.serialization.SerialName\n\n"
     )
     builder.append(processObject(jsonObject, className))
     nestedClasses.reversed().forEach { builder.append(it) }

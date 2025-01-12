@@ -2,6 +2,8 @@ package com.app.krestbuilder
 
 import com.app.krestbuilder.mock.sampleListData
 import com.app.krestbuilder.remote.ApiClient
+import com.app.krestbuilder.remote.ktorClient
+import com.app.krestbuilder.utils.curl.parseCurlCommand
 import com.app.krestbuilder.utils.generatePojoFromJson
 import com.app.krestbuilder.utils.generator.dataclass.generateDataClass
 import com.google.gson.Gson
@@ -12,6 +14,11 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 
 class CurlToPojoAction : AnAction() {
@@ -39,12 +46,7 @@ class CurlToPojoAction : AnAction() {
         ) ?: return
 
         try {
-            // Parse the cURL command
-            val (url, method, headers, body) = parseCurlCommand(curlCommand)
-
-            // Make the API request
-            val jsonResponse = ApiClient(httpClient).makeApiRequest(url, method, headers, body)
-
+            val jsonResponse = ktorClient(curlCommand)
             // Generate POJO classes
             val pojoClasses = gson.generatePojoFromJson(jsonResponse)
 
@@ -68,15 +70,6 @@ class CurlToPojoAction : AnAction() {
         }
     }
 
-    private fun parseCurlCommand(curl: String): CurlComponents {
-        // Dummy implementation. Parse the cURL properly using regex or libraries.
-        val url = curl // Extract this from cURL
-        val method = "GET" // Extract method
-        val headers = mapOf("Authorization" to "Bearer token") // Extract headers
-        val body: String? = null // Extract body if POST/PUT
-
-        return CurlComponents(url, method, headers, body)
-    }
 
 }
 
