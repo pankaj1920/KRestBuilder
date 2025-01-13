@@ -1,13 +1,12 @@
-package com.app.krestbuilder.utils
+package com.app.krestbuilder.utils.json
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 
 
-import com.google.gson.*
 import java.util.*
 
-fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "GeneratedPojo"): String {
+fun Gson.pojoFromJson(jsonResponse: String, className: String): String {
     val jsonObject = this.fromJson(jsonResponse, JsonObject::class.java)
     val builder = StringBuilder()
 
@@ -15,7 +14,7 @@ fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "Generat
 
     fun processObject(obj: JsonObject, currentClassName: String): String {
         val classBuilder = StringBuilder()
-        classBuilder.append("@Serializable\ndata class $currentClassName(\n")
+        classBuilder.append("@Serializable\ndata class ${currentClassName}(\n")
 
         obj.keySet().forEach { key ->
             val value = obj[key]
@@ -73,7 +72,15 @@ fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "Generat
                 else -> "Any" // Fallback for unexpected cases
             }
 
-            classBuilder.append("\t@SerialName(\"$key\")\n\tval $key: $type,\n")
+            // Append property with default value (null or empty list)
+            val defaultValue = when {
+                type.startsWith("List") -> "emptyList()"
+                else -> "null"
+            }
+
+//            classBuilder.append("\t@SerialName(\"$key\")\n\tval $key: $type,\n")
+            classBuilder.append("\t@SerialName(\"$key\")\n\tval $key:$type? = $defaultValue,\n")
+
         }
 
         // Remove the trailing comma and close the class definition
@@ -94,31 +101,3 @@ fun Gson.generatePojoFromJson(jsonResponse: String, className: String = "Generat
 }
 
 
-fun Gson.generatePojoFromJsonSingle(jsonResponse: String): String {
-    val jsonObject = this.fromJson(jsonResponse, JsonObject::class.java)
-    val builder = StringBuilder()
-
-    jsonObject.keySet().forEach { key ->
-        val value = jsonObject[key]
-        val type = when {
-            value.isJsonObject -> "Object"
-            value.isJsonArray -> "List<Object>"
-            value.isJsonPrimitive -> {
-                val primitive = value.asJsonPrimitive
-                when {
-                    primitive.isBoolean -> "Boolean"
-                    primitive.isNumber -> "Double" // Use Double for generic numeric types
-                    primitive.isString -> "String"
-                    else -> "String" // Fallback for unknown primitive types
-                }
-            }
-
-            value.isJsonNull -> "Any?" // Kotlin nullable type for nulls
-            else -> "Any" // Fallback for unexpected cases
-        }
-
-        builder.append("var $key: $type\n")
-    }
-
-    return builder.toString()
-}

@@ -1,4 +1,4 @@
-package com.app.krestbuilder.utils.generator.dataclass
+package com.app.krestbuilder.utils.generator.basicclass
 
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.project.Project

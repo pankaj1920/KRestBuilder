@@ -1,4 +1,4 @@
-package com.app.krestbuilder.utils.curl
+package com.app.krestbuilder.remote.curl.extractor
 
 fun getBody(curl: String): String {
     val bodyRegex = Regex("--data\\s+'(\\{.*?})'", RegexOption.DOT_MATCHES_ALL)

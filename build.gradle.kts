@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "1.9.25"
@@ -8,7 +10,9 @@ group = "com.app"
 version = "1.0-SNAPSHOT"
 
 repositories {
+//    maven { url = URI.create("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies") }
     mavenCentral()
+
 }
 
 // Configure Gradle IntelliJ Plugin
@@ -61,6 +65,9 @@ tasks {
         implementation("io.ktor:ktor-client-cio:3.0.3")
         implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
         implementation("org.slf4j:slf4j-simple:2.0.9")
+//        implementation ("com.jetbrains.intellij.platform:ui-dsl:1.0.0")
+
+
     }
 
 

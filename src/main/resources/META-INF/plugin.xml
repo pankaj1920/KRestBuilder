@@ -13,7 +13,7 @@
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description>KRestBuilder KRestBuilder KRestBuilder KRestBuilder </description>
+    <description>KRestBuilder KRestBuilder KRestBuilder KRestBuilder</description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
@@ -30,8 +30,8 @@
     <depends>com.intellij.modules.json</depends>
 
     <actions>
-        <action id="com.app.krestbuilder.CurlToPojoAction"
-                class="com.app.krestbuilder.CurlToPojoAction"
+        <action id="com.app.krestbuilder.KRequestBuilder"
+                class="com.app.krestbuilder.KRequestBuilder"
                 text="KRestBuilder"
                 description="Generate POJO class from cURL command">
             <add-to-group group-id="NewGroup" anchor="first"/>

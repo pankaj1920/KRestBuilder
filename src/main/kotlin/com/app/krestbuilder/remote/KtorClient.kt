@@ -1,20 +1,12 @@
 package com.app.krestbuilder.remote
 
-import com.app.krestbuilder.utils.Print
-import com.app.krestbuilder.utils.curl.*
-import com.app.krestbuilder.utils.curl.HttpMethod
+import com.app.krestbuilder.remote.curl.extractor.HttpMethod
+import com.app.krestbuilder.remote.curl.extractor.getBody
+import com.app.krestbuilder.remote.curl.extractor.getHeaderMap
+import com.app.krestbuilder.remote.curl.extractor.getUrlAndMethod
 import io.ktor.client.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
 
 

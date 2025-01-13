@@ -1,4 +1,4 @@
-package com.app.krestbuilder.utils.curl
+package com.app.krestbuilder.remote.curl.extractor
 
 
 enum class HttpMethod {
@@ -31,32 +31,6 @@ fun getUrlAndMethod(curl: String): CurlInfo {
 
     return CurlInfo(url = url, method = method)
 }
-
-
-/*fun getUrlAndMethod(curl: String): CurlInfo {
-//    val methodRegex = Regex("curl --location(?: --request (\\w+))?")
-    val methodRegex = Regex("curl --location(?: --request (\\w+))?")
-    val urlRegex = Regex("'(https?://[^']+)'")
-
-    // Extract the HTTP method
-    val methodMatch = methodRegex.find(curl)
-    *//* val methodName = methodMatch?.groups?.get(1)?.value?.lowercase()
-     println("methodName ==> ${methodMatch?.groups?.get(1)?.value?.lowercase()}")
-     val method = HttpMethod.entries.find { it.name.lowercase() == methodName } ?: HttpMethod.GET
- *//*
-    val methodName = when {
-        curl.contains("--head") -> "head" // Explicitly check for `--head`
-        else -> methodMatch?.groups?.get(1)?.value?.lowercase()
-    }
-    println("methodName ==> $methodName")
-    val method = HttpMethod.entries.find { it.name.lowercase() == methodName } ?: HttpMethod.GET
-
-    // Extract the URL
-    val urlMatch = urlRegex.find(curl)
-    val url = urlMatch?.groups?.get(1)?.value ?: "NoUrlFound"
-
-    return CurlInfo(url = url, method = method)
-}*/
 
 
 fun extractUrlAndMethod(curl: String): Pair<String, String>? {

@@ -1,4 +1,4 @@
-package com.app.krestbuilder.utils.curl
+package com.app.krestbuilder.remote.curl.extractor
 
 import com.app.krestbuilder.utils.json.mapToJson
 
