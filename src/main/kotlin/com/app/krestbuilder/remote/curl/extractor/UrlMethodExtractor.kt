@@ -1,13 +1,13 @@
 package com.app.krestbuilder.remote.curl.extractor
 
 
-enum class HttpMethod {
+enum class HttpMethodType {
     GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD
 }
 
 data class CurlInfo(
     val url: String = "",
-    val method: HttpMethod = HttpMethod.GET
+    val method: HttpMethodType = HttpMethodType.GET
 )
 
 fun getUrlAndMethod(curl: String): CurlInfo {
@@ -23,7 +23,7 @@ fun getUrlAndMethod(curl: String): CurlInfo {
         else -> methodMatch?.groups?.get(1)?.value?.lowercase()
     }
     println("methodName ==> $methodName")
-    val method = HttpMethod.entries.find { it.name.lowercase() == methodName } ?: HttpMethod.GET
+    val method = HttpMethodType.entries.find { it.name.lowercase() == methodName } ?: HttpMethodType.GET
 
     // Extract the URL
     val urlMatch = urlRegex.find(curl)

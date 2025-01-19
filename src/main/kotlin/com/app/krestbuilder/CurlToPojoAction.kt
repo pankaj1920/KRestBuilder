@@ -2,8 +2,8 @@ package com.app.krestbuilder
 
 import com.app.krestbuilder.remote.ktorClient
 import com.app.krestbuilder.ui.event.getDataContextVirtualFile
+import com.app.krestbuilder.utils.filemanager.generateClass
 import com.app.krestbuilder.utils.json.pojoFromJson
-import com.app.krestbuilder.utils.generator.dataclass.generateDataClass
 import com.app.krestbuilder.utils.json.JSON
 import com.app.krestbuilder.utils.json.gson
 import com.google.gson.Gson
@@ -41,7 +41,7 @@ class CurlToPojoAction : AnAction() {
         try {
             val jsonResponse = ktorClient(curlCommand)
             // Generate POJO classes
-            val pojoClasses = gson.pojoFromJson(jsonResponse,"")
+            val pojoClasses = gson.pojoFromJson(jsonResponse.response.toString(),"")
 
             val project = event.project
             Messages.showMessageDialog(
@@ -54,7 +54,7 @@ class CurlToPojoAction : AnAction() {
             // Generate and add the POJO class to the selected package
             val className = "GeneratedPojo" // You can enhance this to get a user-provided name
             if (project != null) {
-                generateDataClass(pojoClasses, psiDirectory, className, project)
+                generateClass(pojoClasses, psiDirectory, className, project)
             }
 
             Messages.showInfoMessage("POJO classes generated successfully.", "Success")

@@ -70,7 +70,7 @@ internal data class Model(
 
 
 class CurlInputDialog(
-    private val onSubmit: (fileName: String, curlCommand: String) -> Unit
+    private val onSubmit: (fileName: String, functionName: String, curlCommand: String) -> Unit
 ) : DialogWrapper(true) {
 
     private val curlModule = Model()
@@ -95,6 +95,21 @@ class CurlInputDialog(
                     }
                     .comment("Enter the name for class")
             }
+
+            row("Function Prefix:") {
+                val classNameField = textField()
+                    .columns(20)
+                    .applyToComponent {
+                        text = curlModule.funName
+                        document.addDocumentListener(object : DocumentAdapter() {
+                            override fun textChanged(e: DocumentEvent) {
+                                curlModule.funName = this@applyToComponent.text
+                            }
+                        })
+                    }
+                    .comment("Enter the function prefix")
+            }
+
             row("cURL Command:") {
                 val curlCommandField = textArea()
                     .rows(10)
@@ -115,7 +130,7 @@ class CurlInputDialog(
 
     override fun doOKAction() {
 
-        onSubmit(curlModule.fileName, curlModule.curlCommand)
+        onSubmit(curlModule.fileName, curlModule.funName.uppercase(), curlModule.curlCommand)
         super.doOKAction() // Closes the dialog
     }
 }
@@ -123,5 +138,6 @@ class CurlInputDialog(
 @ApiStatus.Internal
 internal data class Model(
     var fileName: String = "",
+    var funName: String = "",
     var curlCommand: String = "",
 )
